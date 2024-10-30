@@ -5,20 +5,21 @@ import PackageDescription
 
 let package = Package(
     name: "MediaBrowser",
+    platforms: [.iOS(.v14)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "MediaBrowser",
             targets: ["MediaBrowser"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/Deepakgoyal-iOS/UXPagerView", branch: "main")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "MediaBrowser"),
-        .testTarget(
-            name: "MediaBrowserTests",
-            dependencies: ["MediaBrowser"]
-        ),
+            name: "MediaBrowser",
+            path: "Sources"),
     ]
 )

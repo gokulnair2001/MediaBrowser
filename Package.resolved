@@ -1,0 +1,15 @@
+{
+  "originHash" : "132c906a6900a00aeb2904e009b118495e5b5a46289cabc98149b3c926e50e13",
+  "pins" : [
+    {
+      "identity" : "uxpagerview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Deepakgoyal-iOS/UXPagerView",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e5e9ed554739fda405deb30137eee5507814847f"
+      }
+    }
+  ],
+  "version" : 3
+}
