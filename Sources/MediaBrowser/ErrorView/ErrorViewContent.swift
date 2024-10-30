@@ -48,16 +48,12 @@ enum ErrorType: Int {
     
     var image: UIImage? {
         switch self {
-        case ._500:
-            return UIImage(named: "error_500")
-        case ._502:
-            return UIImage(named: "error_502")
-        case ._504:
-            return UIImage(named: "error_504")
         case .noNetwork:
-            return UIImage(named: "error_noNetwork")
+            return UIImage(named: "error_noNetwork", in: Bundle.module, compatibleWith: nil)
         case .defaultError:
-            return UIImage(named: "error_502")
+            return UIImage(named: "error_502", in: Bundle.module, compatibleWith: nil)
+        default:
+            return UIImage(named: "error_502", in: Bundle.module, compatibleWith: nil)
         }
     }
     
