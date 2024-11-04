@@ -1,5 +1,5 @@
 //
-//  CVPlayerViewController.swift
+//  CVPlayerViewControllerDelegate.swift
 //  Powerplay
 //
 //  Created by Deepak Goyal on 07/08/23.
