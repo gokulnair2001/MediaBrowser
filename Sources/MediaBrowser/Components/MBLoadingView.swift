@@ -72,22 +72,20 @@ class MBLoadingView {
         guard let parentView else { return }
         
         NSLayoutConstraint.activate([
-            loadingIndicator.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: overlayView.centerYAnchor)
-        ])
-
-        // Position `titleLbl` below `loadingIndicator` with an 8-point offset and center horizontally
-        NSLayoutConstraint.activate([
-            titleLbl.topAnchor.constraint(equalTo: overlayView.bottomAnchor, constant: 8),
-            titleLbl.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor)
-        ])
-
-        // Set `overlayView` to have edges inset by `overlayEdges`
-        NSLayoutConstraint.activate([
             overlayView.topAnchor.constraint(equalTo: parentView.topAnchor, constant: overlayEdges.top),
             overlayView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: overlayEdges.left),
             overlayView.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -overlayEdges.right),
             overlayView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: -overlayEdges.bottom)
+        ])
+        
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: overlayView.centerYAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            titleLbl.topAnchor.constraint(equalTo: overlayView.bottomAnchor, constant: 8),
+            titleLbl.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor)
         ])
         
     }
