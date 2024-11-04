@@ -7,8 +7,8 @@
 
 import UIKit
 
-// MARK: - Error Content Model
 
+// MARK: - Error Content Model
 struct ErrorViewContent {
     var errorContent: ErrorContent
     var error: ErrorType?

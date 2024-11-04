@@ -11,7 +11,7 @@ import UIKit
  MediaBrowser consumes Media which is of MediaBrowsable Type.
  MediaBrowsable needs to be implemented for every new browser which will be introduced.
  */
-protocol MediaBrowsable {
+public protocol MediaBrowsable {
     
     /**
     A unique ID, which is stored while caching raw data.

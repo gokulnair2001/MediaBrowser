@@ -8,41 +8,45 @@
 import UIKit
 
 
-struct MBConstants {
+public struct MBConstants {
     
-    struct Images {
+    public struct Images {
         
         /// Images for error occurrence
-        static var videoBrowserErrorImage: String = "error_noNetwork"
-        static var pdfBrowserErrorImage: String = "error_noNetwork"
-        static var photoBrowserErrorImage: String = "error_noNetwork" /// Used as placeholder image if not set explicitly
-        static var webBrowserErrorImage: String = "error_noNetwork"
+        public static var videoBrowserErrorImage: String = "error_noNetwork"
+        public static var pdfBrowserErrorImage: String = "error_noNetwork"
+        public static var photoBrowserErrorImage: String = "error_noNetwork" /// Used as placeholder image if not set explicitly
+        public static var webBrowserErrorImage: String = "error_noNetwork"
         
     }
     
-    struct Color {
+    public struct Color {
         /// Browser Tint Color
-        static var browserTint: UIColor = .white
-        static var loaderTint: UIColor = .gray
+        public static var browserTint: UIColor = .white
+        public static var loaderTint: UIColor = .gray
     }
     
-    struct Cache {
-        static var countLimit: Int = 10
-        static var evictsObjectsWithDiscardedContent: Bool = true
+    public struct Cache {
+        public static var countLimit: Int = 10
+        public static var evictsObjectsWithDiscardedContent: Bool = true
     }
     
-    struct DiskStorage {
+    public struct DiskStorage {
         /// This size will be considered in MB
         static var maxSize: UInt64 = 0
     }
     
-    struct UITexts {
-        static var photoBrowserErrorText: String = "Image Download failed"
-        static var videoBrowserErrorText: String = "Video Download failed"
-        static var documentBrowserErrorText: String = "Document Download failed"
-        static var webBrowserErrorText: String = "Website failed to load"
-        static var errorActionButtonText: String = "Retry"
+    public struct UITexts {
+        public static var photoBrowserErrorText: String = "Image Download failed"
+        public static var videoBrowserErrorText: String = "Video Download failed"
+        public static var documentBrowserErrorText: String = "Document Download failed"
+        public static var webBrowserErrorText: String = "Website failed to load"
+        public static var errorActionButtonText: String = "Retry"
     }
     
-    static var isPhotoZoomEnabled: Bool = true
+    public struct Metrics {
+        public static var homeViewAppBarHeight: CGFloat = 55
+    }
+    
+    public static var isPhotoZoomEnabled: Bool = true
 }
