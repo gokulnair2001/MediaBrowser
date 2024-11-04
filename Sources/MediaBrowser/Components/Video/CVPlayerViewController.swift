@@ -1,28 +1,17 @@
 //
 //  CVPlayerViewController.swift
-//  Powerplay
+//  MediaBrowser
 //
-//  Created by Deepak Goyal on 07/08/23.
+//  Created by Gokul Nair(Work) on 04/11/24.
 //
 
 import UIKit
 
-protocol CVPlayerViewControllerDelegate: AnyObject{
-    
-    // MARK: If URL is appropriate and video is Ready to playing / start playing
-    func didReadyToPlay()
-    
-    // MARK: Something is wrong and video is failed to play
-    func didFailToPlay()
-    
-    func didTapPlay()
-    
-    func didTapPause()
-}
 
+/// A view controller that manages video playback with a custom overlay for video controls, loading indicator, and player actions like play, pause, seek, forward, and backward. This controller uses `VideoPlayerLayerView` for displaying the video and `VideoControlsOverlayView` for control interactions.
 class CVPlayerViewController: UIViewController {
     
-    
+    // Overlay view for video controls with delegate for handling interactions
     private lazy var controlsOverLay: VideoControlsOverlayView = {
        let view = VideoControlsOverlayView()
         view.delegate = self
@@ -32,6 +21,7 @@ class CVPlayerViewController: UIViewController {
         return view
     }()
     
+    // View that handles video rendering and playback
     private(set) lazy var playerView: VideoPlayerLayerView = {
         let view = VideoPlayerLayerView(isAutoPlay: isAutoPlay)
         view.url = url
@@ -42,6 +32,7 @@ class CVPlayerViewController: UIViewController {
         return view
     }()
     
+    // Loading indicator overlay to show buffering or loading state
     private lazy var loader: MBLoadingView = {
         let view = MBLoadingView(withParentView: self.view, overlayInsets: UIEdgeInsets(top: CGFloat(MBConstants.Metrics.homeViewAppBarHeight) + 30, left: 0, bottom: 0, right: 0))
         view.setOverlayColor(.clear)
@@ -50,16 +41,26 @@ class CVPlayerViewController: UIViewController {
         return view
     }()
     
-    var url: URL?{
-        didSet{
+    // URL for the video to be played
+    var url: URL? {
+        didSet {
             playerView.url = url
         }
     }
+    
+    // Determines if the video should play automatically on load
     private var isAutoPlay = true
+    
+    // Stores a pending seek ratio for delayed seek operations
     private var pendingSeekRatio: Float?
+    
+    // Delegate to handle playback events
     weak var delegate: CVPlayerViewControllerDelegate?
+    
+    // Factor in seconds to skip forward/backward in the video
     private var seekFactor: Double = 10
     
+    // Initializer with optional URL and autoplay configuration
     init(url: URL? = nil, isAutoPlay: Bool = true) {
         self.url = url
         self.isAutoPlay = isAutoPlay
@@ -70,24 +71,28 @@ class CVPlayerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Sets up the views and constraints on load
     override func viewDidLoad() {
         super.viewDidLoad()
         addViews()
         addLayoutConstraints()
     }
     
+    // Pauses video playback when the view disappears
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         playerView.pause()
     }
     
-    private func addViews(){
+    // Adds player view and controls overlay to the view hierarchy
+    private func addViews() {
         self.view.addSubview(playerView)
         self.playerView.addSubview(controlsOverLay)
         controlsOverLay.isHidden = true
     }
     
-    private func addLayoutConstraints(){
+    // Adds layout constraints for player view and controls overlay
+    private func addLayoutConstraints() {
         
         NSLayoutConstraint.activate([
             controlsOverLay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -102,90 +107,105 @@ class CVPlayerViewController: UIViewController {
             playerView.topAnchor.constraint(equalTo: view.topAnchor),
             playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
     }
     
-    /// Seconds you need to seek forward and backward
-    /// - Parameter seconds: Eg if X then, on forward and backward tap video will be X seconds forward and X seconds backward
-    func setSeekFactor(seconds: Double){
+    /// Sets the seconds to skip forward or backward in the video
+    /// - Parameter seconds: The skip interval in seconds
+    func setSeekFactor(seconds: Double) {
         self.seekFactor = seconds
     }
     
-    @objc private func didTapVideoView(){
+    // Handles tap on video view to show controls overlay
+    @objc private func didTapVideoView() {
         controlsOverLay.isHidden = false
     }
     
-    @objc private func didTapOverlayView(){
+    // Handles tap on overlay view to hide controls overlay
+    @objc private func didTapOverlayView() {
         controlsOverLay.isHidden = true
     }
 }
-extension CVPlayerViewController: VideoControlsOverlayViewDelegate{
+
+// MARK: - VideoControlsOverlayViewDelegate
+extension CVPlayerViewController: VideoControlsOverlayViewDelegate {
     
+    // Updates seek position in the video with a delay
     func didChangeSeek(withRatio ratio: Float) {
-        
         pendingSeekRatio = ratio
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(changeSeek), object: nil)
         self.perform(#selector(changeSeek), with: nil, afterDelay: 1)
         self.loader.startLoading()
     }
     
+    // Seeks forward by the seek factor
     func didTapForward() {
         playerView.seek(seekFactor)
     }
     
+    // Seeks backward by the seek factor
     func didTapBackward() {
         playerView.seek(-seekFactor)
     }
     
+    // Starts video playback and notifies delegate
     func didTapPlay() {
         playerView.play()
         delegate?.didTapPlay()
     }
     
+    // Pauses video playback and notifies delegate
     func didTapPause() {
         playerView.pause()
         delegate?.didTapPause()
     }
     
-    @objc private func changeSeek(){
+    // Applies the pending seek ratio and stops loader animation
+    @objc private func changeSeek() {
         playerView.seek(toRatio: pendingSeekRatio ?? 0)
         loader.stopLoading()
         pendingSeekRatio = nil
     }
-
 }
-extension CVPlayerViewController: VideoPlayerViewDelegate{
+
+// MARK: - VideoPlayerViewDelegate
+extension CVPlayerViewController: VideoPlayerViewDelegate {
     
+    // Updates the played duration on the controls overlay
     func didChangePlayedDuration(withTime time: Double, ofDuration duration: Double) {
-        
         guard pendingSeekRatio == nil else { return }
         controlsOverLay.set(playedDuration: time, totalDuration: duration)
     }
     
+    // Called when the video is ready to play, stops loading animation
     func didReadyToPlay(ofDuration time: Double) {
-        self.delegate?.didReadyToPlay()
+        delegate?.didReadyToPlay()
         loader.stopLoading()
         controlsOverLay.set(playedDuration: 0, totalDuration: time)
     }
     
+    // Called if the video fails to play, stops loading and resets overlay
     func didFailedPlaying() {
-        self.delegate?.didFailToPlay()
+        delegate?.didFailToPlay()
         loader.stopLoading()
         controlsOverLay.set(playedDuration: 0, totalDuration: 0)
     }
     
+    // Starts loader animation when video is loading
     func didLoadPlayer() {
         loader.startLoading()
     }
     
+    // Pauses controls overlay when video is paused
     func didPaused() {
         controlsOverLay.pause()
     }
     
+    // Resumes controls overlay when video is playing
     func didPlayed() {
         controlsOverLay.play()
     }
 
+    // Resets controls overlay when video playback ends
     func didEndPlaying() {
         controlsOverLay.pause()
         controlsOverLay.timeSlider.value = controlsOverLay.timeSlider.minimumValue
