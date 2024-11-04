@@ -63,10 +63,6 @@ class VideoControlsOverlayView: UIView {
         backwardBtnOutlet.setTitle("", for: .normal)
         playPauseBtnOutlet.setTitle("", for: .normal)
         
-        forwardBtnOutlet.setImage(getImageFromBundle("forward_10_pdf"), for: .normal)
-        backwardBtnOutlet.setImage(getImageFromBundle("backward_10_pdf"), for: .normal)
-        playPauseBtnOutlet.setImage(getImageFromBundle("play_pdf"), for: .normal)
-        
         forwardBtnOutlet.tintColor = .white
         backwardBtnOutlet.tintColor = .white
         playPauseBtnOutlet.tintColor = .white

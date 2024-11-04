@@ -9,7 +9,7 @@ import UIKit
 import MobileCoreServices
 
 
-class MediaBrowserUtils {
+public class MediaBrowserUtils {
     
     static let shared = MediaBrowserUtils()
     

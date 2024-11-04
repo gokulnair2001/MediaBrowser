@@ -10,7 +10,7 @@ import UXPagerView
 
 
 @available(iOS 13.0, *)
-class MediaBrowser: UIViewController {
+public class MediaBrowser: UIViewController {
     
     private lazy var pageViewControl: UXPagerView = {
         let pagerView = UXPagerView()
@@ -31,7 +31,7 @@ class MediaBrowser: UIViewController {
     
     private lazy var browserTitleLabel: UILabel = {
         let lbl = UILabel()
-      //  lbl.font = .primary(Ofsize: 18)
+        lbl.font = .systemFont(ofSize: 18)
         lbl.adjustsFontSizeToFitWidth = true
         lbl.textAlignment = .center
         lbl.textColor = .white
@@ -100,7 +100,7 @@ class MediaBrowser: UIViewController {
     }()
     
     private lazy var loader: MBLoadingView = {
-        let view = MBLoadingView(withParentView: self.view, overlayInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        let view = MBLoadingView(withParentView: self.view, overlayInsets: UIEdgeInsets(top: CGFloat(MBConstants.Metrics.homeViewAppBarHeight) + 30, left: 0, bottom: 0, right: 0))
         view.setOverlayColor(.clear)
         view.loadingIndicator.color = .black
         view.loadingIndicator.layer.cornerRadius = 4
@@ -150,7 +150,7 @@ class MediaBrowser: UIViewController {
     /// Parent class nav bar visibility flag
     private var isParentNavigationBarHidden = false
     
-    init(storagePolicy: MBStoragePolicy = .InMemory, browserTools: [MBOperations] = []) {
+    public init(storagePolicy: MBStoragePolicy = .InMemory, browserTools: [MBOperations] = []) {
         self.storagePolicy = storagePolicy
         self.browserTools = browserTools
         
@@ -161,7 +161,7 @@ class MediaBrowser: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         isParentNavigationBarHidden = self.navigationController?.isNavigationBarHidden ?? false
@@ -169,7 +169,7 @@ class MediaBrowser: UIViewController {
         
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         addViews()
@@ -179,7 +179,7 @@ class MediaBrowser: UIViewController {
         setupView()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         /// Checking for file eviction
         MediaBrowserFileManager.shared.checkForEviction()
@@ -254,7 +254,7 @@ class MediaBrowser: UIViewController {
         NSLayoutConstraint.activate([
             contentStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             contentStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            contentStack.topAnchor.constraint(equalTo: self.view.topAnchor),
+            contentStack.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -16)
         ])
         
@@ -382,7 +382,7 @@ extension MediaBrowser {
     /// - Parameters:
     ///   - media: Media(MediaBrowsable) to be rendered
     ///   - index: Index from which browsing needs to begin
-    func render(media: [MediaBrowsable], withSelectedIndex index: Int = 0) {
+    public func render(media: [MediaBrowsable], withSelectedIndex index: Int = 0) {
         self.media = media
         let preSelectedIndex = (index < media.count) ? index : 0
         self.pageViewControl.defaultSelectedTab = preSelectedIndex
@@ -391,7 +391,7 @@ extension MediaBrowser {
     
     /// Setting default image for all browsers
     /// - Parameter placeHolderImage: Place holder UIImage for the browser
-    func set(placeHolderImage: UIImage) {
+    public func set(placeHolderImage: UIImage) {
         self.placeHolderImage = placeHolderImage
     }
 }
@@ -548,7 +548,7 @@ extension MediaBrowser {
         
         switch storagePolicy {
         case .InMemory:
-            /* 
+            /*
              Already did, this is mandatory for every type of storage since for an active session of MediaManager,
              InMemory cache is used rather than fetching it from NSCache/Disk
              */
@@ -568,11 +568,11 @@ extension MediaBrowser {
 @available(iOS 13.0, *)
 extension MediaBrowser: UXPagerViewDelegate {
     
-    func pagerView(_ view: UXPagerView, tabTitleAtIndex index: Int) -> String {
+    public func pagerView(_ view: UXPagerView, tabTitleAtIndex index: Int) -> String {
         return ""
     }
     
-    func pagerView(_ view: UXPagerView, pageAtIndex index: Int) -> UIViewController? {
+    public func pagerView(_ view: UXPagerView, pageAtIndex index: Int) -> UIViewController? {
         
         guard let _toBrowseMediaType = toBrowseMediaTypes[safeIndex: index], let type = _toBrowseMediaType.mediaType else { return UIViewController() }
         
@@ -612,11 +612,11 @@ extension MediaBrowser: UXPagerViewDelegate {
         }
     }
     
-    func numberOfPages(_ view: UXPagerView) -> Int {
+    public func numberOfPages(_ view: UXPagerView) -> Int {
         return toBrowseMediaTypes.count
     }
     
-    func pagerView(_ view: UXPagerView, didSwipeTabTo index: Int) {
+    public func pagerView(_ view: UXPagerView, didSwipeTabTo index: Int) {
         self.storeInSessionBrowser(index: index, shouldReloadPager: false)
     }
 }

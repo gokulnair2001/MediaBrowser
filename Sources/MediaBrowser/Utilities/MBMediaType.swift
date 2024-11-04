@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 // MARK: - Types of format that Media Browser supports.
-enum MBMediaType {
+public enum MBMediaType {
     case Photo(url: URL)
     case Image(image: UIImage)
     case Video(url: URL)
@@ -92,7 +92,7 @@ enum MBDocumentType: String, CaseIterable {
 }
 
 // MARK: - Browser Operations
-enum MBOperations: String {
+public enum MBOperations: String {
     case Share = "Share"
 }
 
@@ -113,7 +113,7 @@ enum MBFileOperationStatus {
 // MARK: - Browser Caching Policy type
 
 // Media Browser supports three types of Media Storage Policy.
-enum MBStoragePolicy {
+public enum MBStoragePolicy {
     /*
      InMemory storage policy stores/caches the rendered media in Browser class. Thus the data will get disposed when Media Browser session is ended.
      

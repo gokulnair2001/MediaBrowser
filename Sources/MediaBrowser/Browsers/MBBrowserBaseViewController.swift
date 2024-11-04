@@ -18,7 +18,7 @@ class MBBrowserBaseViewController: UIViewController {
     
     /// View Loader
     lazy var loader: MBLoadingView = {
-        let view = MBLoadingView(withParentView: self.view, overlayInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        let view = MBLoadingView(withParentView: self.view, overlayInsets: UIEdgeInsets(top: CGFloat(MBConstants.Metrics.homeViewAppBarHeight) + 30, left: 0, bottom: 0, right: 0))
         view.setOverlayColor(.clear)
         view.loadingIndicator.color = MBConstants.Color.browserTint
         return view

@@ -8,6 +8,8 @@
 import UIKit
 
 
+// A custom loading view that displays an activity indicator with an optional title over a semi-transparent overlay.
+// This view can be added to any parent view to show loading status with customisation options for overlay color, indicator style, and indicator color.
 class MBLoadingView {
     
     lazy var loadingIndicator: UIActivityIndicatorView = {
@@ -20,7 +22,7 @@ class MBLoadingView {
     
     private lazy var titleLbl: PaddedLabel = {
         let lbl = PaddedLabel()
-       // lbl.font = .primary(Ofsize: 14)
+        lbl.font = .systemFont(ofSize: 14)
         lbl.textColor = .black
         lbl.backgroundColor = .white
         lbl.layer.cornerRadius = 4
@@ -70,14 +72,14 @@ class MBLoadingView {
         guard let parentView else { return }
         
         NSLayoutConstraint.activate([
-            loadingIndicator.centerXAnchor.constraint(equalTo: parentView.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: parentView.centerYAnchor)
+            loadingIndicator.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: overlayView.centerYAnchor)
         ])
 
         // Position `titleLbl` below `loadingIndicator` with an 8-point offset and center horizontally
         NSLayoutConstraint.activate([
-            titleLbl.topAnchor.constraint(equalTo: loadingIndicator.bottomAnchor, constant: 8),
-            titleLbl.centerXAnchor.constraint(equalTo: parentView.centerXAnchor)
+            titleLbl.topAnchor.constraint(equalTo: overlayView.bottomAnchor, constant: 8),
+            titleLbl.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor)
         ])
 
         // Set `overlayView` to have edges inset by `overlayEdges`
@@ -87,6 +89,7 @@ class MBLoadingView {
             overlayView.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: -overlayEdges.right),
             overlayView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: -overlayEdges.bottom)
         ])
+        
     }
     
     //Shows the Activity Indicator and starts animation
