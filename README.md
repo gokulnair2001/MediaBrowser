@@ -113,5 +113,3 @@ You can set custom placeholder image for browser
     }
 
 ```
-![MediaBrowser Image](https://github.com/user-attachments/assets/8cf60543-ccc9-4c5e-85b3-dbc98ba63bf0)
-
