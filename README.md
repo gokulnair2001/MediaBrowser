@@ -59,13 +59,13 @@ extension MediaBrowserUtils {
 Once you have converted raw data to MediaBrowsable type, then use the render() method of media browser to render media.
 
  ```swift
-let vc = MediaBrowser(storagePolicy: .UsingNSCache)
-let rawUrl = ["https://prod-powerplay.s3.ap-south-1.amazonaws.com/others/PP_1702387271203.png" ,
-"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy-pdf"]
-vc.render (media: rawUr1.map({ SO.mediaBrowsable(placeHolderImage: UIImage(named: "error_504") }))
-vc.popoverPresentationController?.sourceView = self.view
-vc.modalPresentationStyle = .fullScreen
-self.present(vc, animated: true)
+    let vc = MediaBrowser(storagePolicy: .UsingNSCache)
+    let rawUrl = ["https://prod-powerplay.s3.ap-south-1.amazonaws.com/others/PP_1702387271203.png" ,
+    "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy-pdf"]
+    vc.render (media: rawUr1.map({ SO.mediaBrowsable(placeHolderImage: UIImage(named: "error_504") }))
+    vc.popoverPresentationController?.sourceView = self.view
+    vc.modalPresentationStyle = .fullScreen
+    self.present(vc, animated: true)
 ```
 
 
@@ -104,5 +104,14 @@ Such kind of policy is best used when there are constant images to be rendered r
 
 You can set custom placeholder image for browser
 
+```swift
+
+    /// Setting default image for all browsers
+    /// - Parameter placeHolderImage: Place holder UIImage for the browser
+    public func set(placeHolderImage: UIImage) {
+        self.placeHolderImage = placeHolderImage
+    }
+
+```
 ![MediaBrowser Image](https://github.com/user-attachments/assets/8cf60543-ccc9-4c5e-85b3-dbc98ba63bf0)
 
