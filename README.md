@@ -32,8 +32,29 @@ Since Media Browser only understands `MediaBrowsable` type data, we need to conv
 
 To perform this operation there are extensions written:
 
-![MediaBrowser Converter](https://github.com/user-attachments/assets/31da3ddc-f960-40e6-84b2-05eaf1ec90cc)
+```swift
+// MARK: - Raw Data Converters
+extension MediaBrowserUtils {
+    
+    /// URL String helper to convert any url to MediaBrowsable type
+    public static func mediaBrowsable(_ urlString: String, holderImage: UIImage? = nil) -> MediaBrowsable {
+        return MBMediaUrl(url: urlString, placeHolderImage: holderImage)
+    }
 
+    
+    /// Raw Data helper to convert any data to MediaBrowsable type
+    public static func mediaBrowsable(_ data: Data, holderImage: UIImage? = nil) -> MediaBrowsable {
+        return MBImageData(data: data, placeHolderImage: holderImage)
+    }
+
+    
+    /// UIImage helper to convert any image to MediaBrowsable type
+    public static func mediaBrowsable(_ image: UIImage, mediaId: String? = nil, holderImage: UIImage? = nil) -> MediaBrowsable {
+        return MBImage(id: mediaId, image: image, placeHolderImage: holderImage)
+    }
+}
+
+```
 
 Once you have converted raw data to MediaBrowsable type, then use the render() method of media browser to render media.
 
