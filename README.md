@@ -58,8 +58,15 @@ extension MediaBrowserUtils {
 
 Once you have converted raw data to MediaBrowsable type, then use the render() method of media browser to render media.
 
-
- ![MediaBrowser Presentation](https://github.com/user-attachments/assets/5137beac-4564-46c0-96ad-4d2c300cfafb)
+ ```swift
+let vc = MediaBrowser(storagePolicy: .UsingNSCache)
+let rawUrl = ["https://prod-powerplay.s3.ap-south-1.amazonaws.com/others/PP_1702387271203.png" ,
+"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy-pdf"]
+vc.render (media: rawUr1.map({ SO.mediaBrowsable(placeHolderImage: UIImage(named: "error_504") }))
+vc.popoverPresentationController?.sourceView = self.view
+vc.modalPresentationStyle = .fullScreen
+self.present(vc, animated: true)
+```
 
 
 Now while initialising MediaBrowser, you need to specify a storage policy to media browser. Available storage policies are:
